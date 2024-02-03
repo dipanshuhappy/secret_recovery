@@ -4,15 +4,6 @@
       "candid": "src/dkim_1_backend/dkim_1_backend.did",
       "package": "dkim_1_backend",
       "type": "rust"
-    },
-    "dkim_1_frontend": {
-      "dependencies": [
-        "dkim_1_backend"
-      ],
-      "source": [
-        "src/dkim_1_frontend/assets"
-      ],
-      "type": "assets"
     }
   },
   "defaults": {

@@ -1,0 +1,82 @@
+Delivered-To: dipanshuhappy@gmail.com
+Received: by 2002:a05:6f02:8290:b0:62:9019:eddd with SMTP id j16csp823982rcd;
+        Fri, 19 Jan 2024 13:13:28 -0800 (PST)
+X-Received: by 2002:a1f:e001:0:b0:4ba:4a6f:5b11 with SMTP id x1-20020a1fe001000000b004ba4a6f5b11mr345432vkg.23.1705698808068;
+        Fri, 19 Jan 2024 13:13:28 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1705698808; cv=none;
+        d=google.com; s=arc-20160816;
+        b=mbJkHUGZQ4z2nl5Gm6ppRep+YouEtvN8G+7tWwBbQf8sVXLYIgpjm1YatvayANUPDt
+         rMPCTw9E7m++fRnOETOrAa9TrBzgw87DQ0oEXjdu+4b6qcMENE3ebnOmW4CCyfrUIZKf
+         yUUrFvR1oKcCch8GHspWvH/cgjfL66zWfy92NlLxHCUOkvoiIZilaKZau5E0hbtbR2x+
+         zLPu+HtqyH0FNGcpFIwkTv0vcI6bAN6etcfPxqD7y9Eyj4qaj74pxL4n67ITtDbn8v5+
+         5g30jv1DS9zd7Bq3HArbJxotj7Mp1XP2ZmTdaKjTpWY3ojlymHiIiT9BvPdET8VjWzN3
+         njwA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=nfI+963dlSNRKNBsSUEhxivys4Y7sCihYew9pJWx9g0=;
+        fh=aLxH0aOk2Btdm9tFRhRnoSBDPee76NSf7W1l8MfVkKY=;
+        b=NAXzm4BFQe1l6v/oyGZWYpvEf+rzp2+wakYMktzYBNWWM2gzl3sKyNYxvjWYOQZlXE
+         d0Uz6OUOl+obGUpMbKVHOCJaNfwlaVXcZGxcAZZ2w4ACB0SpNKp23VW6fE0S7hqTqRVB
+         ktYfscWmGVYF9aSdDrLx+idQU0nFdz4iyk6b+FYTgBFaCPb8CzxNuLwg6Ah4emCSjfq3
+         wyBsB8SVVzcGX5+VDB9Abek9d/h3jzzONA8Eua5x6UdlTx1PDO36k8bc87LpS2oLxW0q
+         HFMVxNNGj4QN5AxC/WkwEuJyYv1kR/KjLV6R+g/W+zvRDuLOVDCE8v+TGFzECrjNqK0a
+         OJkw==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=g7Mcu0Ti;
+       spf=pass (google.com: domain of genx.india4759@gmail.com designates 209.85.220.41 as permitted sender) smtp.mailfrom=genx.india4759@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+Return-Path: <genx.india4759@gmail.com>
+Received: from mail-sor-f41.google.com (mail-sor-f41.google.com. [209.85.220.41])
+        by mx.google.com with SMTPS id w187-20020a1fc6c4000000b004b7256d89fasor3807329vkf.8.2024.01.19.13.13.27
+        for <dipanshuhappy@gmail.com>
+        (Google Transport Security);
+        Fri, 19 Jan 2024 13:13:28 -0800 (PST)
+Received-SPF: pass (google.com: domain of genx.india4759@gmail.com designates 209.85.220.41 as permitted sender) client-ip=209.85.220.41;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=g7Mcu0Ti;
+       spf=pass (google.com: domain of genx.india4759@gmail.com designates 209.85.220.41 as permitted sender) smtp.mailfrom=genx.india4759@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1705698807; x=1706303607; dara=google.com;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=nfI+963dlSNRKNBsSUEhxivys4Y7sCihYew9pJWx9g0=;
+        b=g7Mcu0TiEjCbg0DGPwIEtsvq1T2LRF0eOJvgNpWSqQB24rS37YyIwJuCYVVJM+DTts
+         Wy0+0jTUFt5jNcmAKM7My4wtoaYbIaFbnmzs7deUhtM7OIYkiJwLqrsaQy06GHdXveWK
+         lwRSEVoZqkWSUEU75hYTsxLUxw6q+uZ7w/LLFofiHpMM0BeNG1IymcL0GzqLqWEkaPWw
+         ctuSNW6lGH1JVMTtrdT0Im4AV6vtpU5QKNvYBg6DfU6KaapBI7mFhJstKTxn7hiF5SWL
+         GHaQYXZsnL9XGyLLcD9Xwq7UEuA28oEnLeGnvPDU9LQ6CscadgcOMKK1sHCw11yxl2Ej
+         hobg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705698807; x=1706303607;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=nfI+963dlSNRKNBsSUEhxivys4Y7sCihYew9pJWx9g0=;
+        b=fU66RBbVhJj3hiBRruY16X/9odrRze962dAsnjfswKOECDz6TC7WYnz/DO56U9XfpL
+         Z29b5Ga7fXC6Z0b+ae/M6iI2mmlarmFCm8KwfIO2gCM61/pNUlDYKIjUhm3e2kr64+5v
+         7V1vYWNGzBgF3scjLlfiZPpRKYVmEkqydxHzgO9xBtVOGv2h98Z5q3LCSTqQqrOwfDEm
+         rB7eExDKWplEpwcMvPk1E7hdfsYLiI9ZxQWhIlLEJwJuJBGJAR3C956PvqrUtZ5aGRvs
+         0atSoiWeaJE6vapxi1taC9ensAypzq2eX/x7oUViZcDB5VLjD8FLGkY8MX/iqB9uulW0
+         0wHw==
+X-Gm-Message-State: AOJu0Yzhg4w779rpzuUS+5iYF0xKKxSYIjpvlaJuLlNZ+iEXwH3pwbqo FuifhJseo7Wbg2rr1Fk1G0L3dbO92xJvsAuO5+RFAAG9DkurD8HrMhWdBKXjNLzXyNh5m4w8f2i ekaiH5m/x0TjMceVoF0yVqwHvWdgXNHbn
+X-Google-Smtp-Source: AGHT+IEBEy5zd+hk86ow4bPDtcNg7SeHsNGK9gu7PM4n+r16mEa3BpJE+Al7dXD4/UAJ2+29Xbus+wlJcE/NTQsozZg=
+X-Received: by 2002:ac5:c986:0:b0:4b7:6fa9:1166 with SMTP id e6-20020ac5c986000000b004b76fa91166mr362779vkm.0.1705698807395; Fri, 19 Jan 2024 13:13:27 -0800 (PST)
+MIME-Version: 1.0
+From: "GenX Pvt. Ltd." <genx.india4759@gmail.com>
+Date: Sat, 20 Jan 2024 02:43:16 +0530
+Message-ID: <CAFqH-16CaMkhY+0gm1dNoQcSB_TMLgT8jEn94ybMx91B4151gg@mail.gmail.com>
+Subject: 
+To: Dipanshu Singh <dipanshuhappy@gmail.com>
+Content-Type: multipart/alternative; boundary="000000000000823d87060f52f3f7"
+
+--000000000000823d87060f52f3f7
+Content-Type: text/plain; charset="UTF-8"
+
+Hmm
+
+--000000000000823d87060f52f3f7
+Content-Type: text/html; charset="UTF-8"
+
+<div dir="auto">Hmm</div>
+
+--000000000000823d87060f52f3f7--
