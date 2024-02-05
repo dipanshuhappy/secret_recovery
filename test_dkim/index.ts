@@ -15,7 +15,7 @@ async function main() {
     try {
         const fileContents = await readFileAsString(filePath);
         console.log({ dkim_1_backend })
-        const a = await dkim_1_backend.run_command(fileContents);
+        const a = await dkim_1_backend.finalize_secret_with_email(fileContents);
         console.log(a, "resultss")
         console.log(fileContents);
     } catch (error: any) {

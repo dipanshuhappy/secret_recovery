@@ -14,7 +14,7 @@ export const canisterId =
   process.env.DKIM_1_BACKEND_CANISTER_ID;
 
 export const createActor = (canisterId, options = {}) => {
-  const agent = options.agent || new HttpAgent({ ...options.agentOptions,host:'http://127.0.0.1:4943',verifyQuerySignatures:false });
+  const agent = options.agent || new HttpAgent({ ...options.agentOptions,host:'http://127.0.0.1:4943',verifyQuerySignatures:false  });
 
   if (options.agent && options.agentOptions) {
     console.warn(
