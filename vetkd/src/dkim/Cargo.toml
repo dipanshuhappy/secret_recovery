@@ -1,5 +1,5 @@
 [package]
-name = "dkim_1_backend"
+name = "dkim"
 version = "0.1.0"
 edition = "2021"
 
@@ -15,4 +15,7 @@ serde = { version = "1", features = ["derive"] }
 serde_json = "1.0"
 viadkim = {git="https://github.com/dipanshuhappy/viadkim"}
 ic-stable-structures = "0.5.6"
-
+sha3 = "0.10.8"
+hex = "0.4"
+fastrand = "2.0.0"
+regex = "1"

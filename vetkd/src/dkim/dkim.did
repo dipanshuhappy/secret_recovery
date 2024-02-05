@@ -5,11 +5,11 @@ type HttpResponse = record {
   headers : vec HttpHeader;
 };
 type Result = variant { Ok; Err : text };
+type Result_1 = variant { Ok : nat8; Err : text };
 type TransformArgs = record { context : vec nat8; response : HttpResponse };
 service : {
+  finalize_secret_with_email : (text) -> (Result);
   get_dkim : (text) -> (text);
-  greet : (text) -> (text) query;
-  run_command : (text) -> (Result);
-  time : () -> (nat64) query;
+  register_email : (text) -> (Result_1);
   transform : (TransformArgs) -> (HttpResponse) query;
 }

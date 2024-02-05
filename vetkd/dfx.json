@@ -5,9 +5,9 @@
       "package": "vetkd_system_api",
       "type": "rust"
     },
-    "dkim_1_backend": {
-      "candid": "src/dkim_1_backend/dkim_1_backend.did",
-      "package": "dkim_1_backend",
+    "dkim": {
+      "candid": "src/dkim/dkim.did",
+      "package": "dkim",
       "type": "rust"
     },
     "app_backend": {
