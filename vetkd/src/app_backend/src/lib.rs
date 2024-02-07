@@ -1,3 +1,4 @@
+use candid::Principal;
 use ic_cdk::update;
 use std::str::FromStr;
 use types::{
@@ -7,7 +8,7 @@ use types::{
 
 mod types;
 
-const VETKD_SYSTEM_API_CANISTER_ID: &str = "s55qq-oqaaa-aaaaa-aaakq-cai";
+const VETKD_SYSTEM_API_CANISTER_ID: &str = "bw4dl-smaaa-aaaaa-qaacq-cai";
 
 #[update]
 async fn symmetric_key_verification_key() -> String {
@@ -16,6 +17,7 @@ async fn symmetric_key_verification_key() -> String {
         derivation_path: vec![b"symmetric_key".to_vec()],
         key_id: bls12_381_test_key_1(),
     };
+
 
     let (response,): (VetKDPublicKeyReply,) = ic_cdk::api::call::call(
         vetkd_system_api_canister_id(),
@@ -73,7 +75,7 @@ async fn ibe_encryption_key() -> String {
 async fn encrypted_ibe_decryption_key_for_caller(encryption_public_key: Vec<u8>) -> String {
     debug_println_caller("encrypted_ibe_decryption_key_for_caller");
 
-    let request = VetKDEncryptedKeyRequest {
+    let request: VetKDEncryptedKeyRequest = VetKDEncryptedKeyRequest {
         derivation_id: ic_cdk::caller().as_slice().to_vec(),
         public_key_derivation_path: vec![b"ibe_encryption".to_vec()],
         key_id: bls12_381_test_key_1(),
@@ -87,8 +89,35 @@ async fn encrypted_ibe_decryption_key_for_caller(encryption_public_key: Vec<u8>)
     )
     .await
     .expect("call to vetkd_encrypted_key failed");
-
     hex::encode(response.encrypted_key)
+}
+
+#[update]
+async fn encrypted_ibe_decryption_key_email(encryption_public_key: Vec<u8>,email: String) -> String {
+    debug_println_caller("encrypted_ibe_decryption_key_for_caller");
+    ensure_dkim_canister_is_calling(ic_cdk::caller());
+
+    let request: VetKDEncryptedKeyRequest = VetKDEncryptedKeyRequest {
+        derivation_id: email.as_bytes().to_vec(),
+        public_key_derivation_path: vec![b"ibe_encryption".to_vec()],
+        key_id: bls12_381_test_key_1(),
+        encryption_public_key,
+    };
+
+    let (response,): (VetKDEncryptedKeyReply,) = ic_cdk::api::call::call(
+        vetkd_system_api_canister_id(),
+        "vetkd_encrypted_key",
+        (request,),
+    )
+    .await
+    .expect("call to vetkd_encrypted_key failed");
+    hex::encode(response.encrypted_key)
+}
+
+fn ensure_dkim_canister_is_calling(canister_id: Principal) {
+    if canister_id != Principal::from_text("by6od-j4aaa-aaaaa-qaadq-cai").unwrap() {
+        ic_cdk::trap("insufficient cycles");
+    }
 }
 
 fn bls12_381_test_key_1() -> VetKDKeyId {
