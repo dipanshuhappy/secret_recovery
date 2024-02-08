@@ -97,3 +97,20 @@ sr.reveal(`.home-swiper, .new-swiper, .newsletter__container`)
 sr.reveal(`.category__data, .trick__content, .footer__content`,{interval: 100})
 sr.reveal(`.about__data, .discount__img`,{origin: 'left'})
 sr.reveal(`.about__img, .discount__data`,{origin: 'right'})
+
+document.querySelector('.button.button--ghost').addEventListener('click', function() {
+    document.getElementById('myModal').style.display = "block";
+  });
+  
+  document.querySelector('.close').addEventListener('click', function() {
+    document.getElementById('myModal').style.display = "none";
+    document.querySelector('.otp-input').style.display = 'none';
+  });
+  
+  document.getElementById('registerForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    document.querySelector('.otp-input').style.display = 'block';
+    // You might also change the button's click event listener to verify the OTP
+  });
+  

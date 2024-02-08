@@ -25,8 +25,9 @@
             width: 1.25rem;
         }
     }
-    &__link, 
-    &__logo, 
+    &__link {
+
+    }    &__logo, 
     &__toggle,
     &__close{
         color: var(--title-color);
