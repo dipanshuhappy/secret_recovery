@@ -96,8 +96,8 @@ async fn encrypted_ibe_decryption_key_for_caller(encryption_public_key: Vec<u8>)
 #[update]
 async fn encrypted_ibe_decryption_key_email(encryption_public_key: Vec<u8>,email: String) -> String {
     debug_println_caller("encrypted_ibe_decryption_key_for_caller");
-    ensure_dkim_canister_is_calling(ic_cdk::caller());
-
+    // ensure_dkim_canister_is_calling(ic_cdk::caller());
+    ic_cdk::println!("email bytes {:?}",email.as_bytes().to_vec());
     let request: VetKDEncryptedKeyRequest = VetKDEncryptedKeyRequest {
         derivation_id: email.as_bytes().to_vec(),
         public_key_derivation_path: vec![b"ibe_encryption".to_vec()],

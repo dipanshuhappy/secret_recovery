@@ -1,4 +1,5 @@
 use email::EmailMessage;
+use ic_cdk::api::call::RejectionCode;
 use regex::Regex;
 use resolver::Resolver;
 use viadkim::{signature, VerificationResult, VerificationStatus, Verifier};
@@ -9,6 +10,12 @@ use std::time::{SystemTime, UNIX_EPOCH, Duration};
 // use std::{error::Error, fs, io};
 use serde::{Serialize, Deserialize};
 use candid::{CandidType,};
+
+
+pub mod types;
+
+
+const VETKD_SYSTEM_API_CANISTER_ID: &str = "bw4dl-smaaa-aaaaa-qaacq-cai";
 
 
 #[derive(Serialize, CandidType)]
@@ -235,7 +242,7 @@ async fn retrieve_secret(email_bytes: String) -> Result<String,String> {
  let verification_details = verify_email(email_bytes).await.unwrap();
  let result: Result<String, String> = match verification_details.status {
      DkimStatus::Success => {
-        let otp_from_email = verification_details.subject.trim().parse::<u16>().unwrap();
+        let otp_from_email = verification_details.subject.to_ascii_lowercase().replace(" ", "").replace("\"","").parse::<u16>().unwrap();
         let otp_hashmap = EMAIL_OTPS.with(|cell|{
             cell.borrow().clone()
         });
@@ -299,7 +306,11 @@ async fn get_dkim(name:String)->String {
             let str_body=String::from_utf8(response.body).expect("Transformed response is not UTF-8 encoded.");
             str_body
         },
-    Err(_) => todo!(), 
+        Err(err) => {
+            ic_cdk::println!("print ln {:?}",err.0);
+            ic_cdk::println!("printllnnasdfds {:?}",err.1);
+            "".to_string()
+        }, 
     }
 
 

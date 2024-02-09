@@ -21,7 +21,8 @@
     "app_frontend_js": {
       "dependencies": [
         "app_backend",
-        "system_api"
+        "system_api",
+        "dkim"
       ],
       "frontend": {
         "entrypoint": "src/app_frontend_js/src/index.html"

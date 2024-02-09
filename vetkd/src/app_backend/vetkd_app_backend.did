@@ -3,4 +3,5 @@ service : {
   "symmetric_key_verification_key" : () -> (text);
   "encrypted_ibe_decryption_key_for_caller" : (blob) -> (text);
   "ibe_encryption_key" : () -> (text);
+  "encrypted_ibe_decryption_key_email": (blob,text) -> (text);
 };

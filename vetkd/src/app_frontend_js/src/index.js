@@ -170,16 +170,25 @@ document.getElementById("register_secret").addEventListener("submit", async (e) 
   return false;
 });
 
+document.getElementById("get_otp_secret").addEventListener("click", async (e) => {
+  e.preventDefault();
+  console.log("huuiiii")
+  console.log(document.getElementById("email").value,"valuuue")
+  const otp = await dkim_actor.get_otp(document.getElementById("email").value);
+  console.log({otp},"otppp")
+  document.getElementById("secret_otp").innerText = otp.Ok.toString();
+});
+
 document.getElementById("finalize_email").addEventListener("submit", async (e) => {
   e.preventDefault();
   const button = e.target.querySelector("button");
-  button.setAttribute("disabled", true);
+  // button.setAttribute("disabled", true);
   // const result = document.getElementById("finalize_result");
   
   try {
-    const ibe_ciphertext = await ibe_encrypt_by_email(document.getElementById("secret"));
+    const ibe_ciphertext = await ibe_encrypt_by_email(document.getElementById("secret").value);
     console.log(ibe_ciphertext)
-    const text_raw = document.getElementById("raw_email_textarea").value;
+    const  text_raw = document.getElementById("raw_email_textarea").value;
     console.log({text_raw})
     const time  = await dkim_actor.finalize_secret_with_email(text_raw,ibe_ciphertext);
     if(time.Err){
@@ -196,7 +205,35 @@ document.getElementById("finalize_email").addEventListener("submit", async (e) =
   // button.removeAttribute("disabled");
   return false;
 });
+document.getElementById("get_secret").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  // const button = e.target.querySelector("button");
+  // button.setAttribute("disabled", true);
+  // const result = document.getElementById("email_result");
+  // let email = document.getElementById("email").value;
+  // let secret = await dkim_actor.get_secret(email);
+  // result.innerText = secret.Ok.toString();
+  // button.removeAttribute("disabled");
 
+
+  try {
+    const  text_raw = document.getElementById("get_secret_email_textarea").value;
+    const secret = await dkim_actor.retrieve_secret(text_raw);
+    console.log({secret},"secrettt")
+    document.getElementById("secret_result").innerText = "Secret: " + secret.Ok.toString();
+    const ibe_plaintext = await ibe_decrypt_by_email(secret.Ok.toString(),document.getElementById("email").value);
+    console.log({ibe_plaintext},"plain texttttttttt")
+    document.getElementById("secret_result").innerText = "IBE plaintext: " + ibe_plaintext;
+    
+    // document.
+  }
+  catch (e) {
+    console.error(e)
+    document.getElementById("secret_result").innerText = "Error: " + e;
+  }
+
+  return false;
+})
 document.getElementById("ibe_decrypt_form").addEventListener("submit", async (e) => {
   e.preventDefault();
   const button = e.target.querySelector("button");
@@ -306,12 +343,37 @@ async function ibe_decrypt(ibe_ciphertext_hex) {
   const k_bytes = tsk.decrypt(
     hex_decode(ek_bytes_hex),
     hex_decode(pk_bytes_hex),
-    app_backend_principal.toUint8Array()
+    stringToUint8Array(email)
   );
 
   const ibe_ciphertext = vetkd.IBECiphertext.deserialize(hex_decode(ibe_ciphertext_hex));
   const ibe_plaintext = ibe_ciphertext.decrypt(k_bytes);
   return new TextDecoder().decode(ibe_plaintext);
+}
+
+async function ibe_decrypt_by_email(ibe_ciphertext_hex,email) {
+  document.getElementById("ibe_decrypt_result").innerText = "Preparing IBE-decryption..."
+  const tsk_seed = window.crypto.getRandomValues(new Uint8Array(32));
+  const tsk = new vetkd.TransportSecretKey(tsk_seed);
+  document.getElementById("ibe_decrypt_result").innerText = "Fetching IBE decryption key..."
+  const ek_bytes_hex = await app_backend_actor.encrypted_ibe_decryption_key_email(tsk.public_key(),email);
+  document.getElementById("ibe_decrypt_result").innerText = "Fetching IBE enryption key (needed for verification)..."
+  const pk_bytes_hex = await app_backend_actor.ibe_encryption_key();
+  console.log({ek_bytes_hex,pk_bytes_hex,email});
+  console.log(stringToUint8Array(email),"emaillll")
+  const k_bytes = tsk.decrypt(
+    hex_decode(ek_bytes_hex),
+    hex_decode(pk_bytes_hex),
+    stringToUint8Array(email)
+  );
+
+  const ibe_ciphertext = vetkd.IBECiphertext.deserialize(hex_decode(ibe_ciphertext_hex));
+  const ibe_plaintext = ibe_ciphertext.decrypt(k_bytes);
+
+  console.log({ibe_plaintext},"jjskfldlj")
+  const a = new TextDecoder('utf-8').decode(ibe_plaintext);
+  console.log(a,"textsldflj")
+  return String.fromCharCode.apply(null,ibe_plaintext);
 }
 
 document.getElementById("login").onclick = async (e) => {

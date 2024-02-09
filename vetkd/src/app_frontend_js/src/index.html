@@ -41,7 +41,23 @@
       </form>
     <section id="get_symmetric_key_result"></section>
 
-    < 
+    <h2 id="">Get secret</h1>
+      <form action="#" id="get_secret">
+          <button id="get_otp_secret">Get OTP</button>
+          <div id="secret_otp"></div>
+          <label for="email_bytes">Paste in raw email</label>
+          <textarea id="get_secret_email_textarea" name="raw_email" rows="4" cols="50">
+            
+          </textarea>
+          <label for="secret">Register Secret: </label>
+          <input type="text" name="secret" id="secret"><br><br>
+          <div id="register_otp"></div>
+          <button type="submit">Get secret</button>
+          <section id="secret_result"></section>
+      </form>
+    <section id="get_symmetric_key_result"></section>
+
+
     
     <h2 id="symmetric_encryption_demo">Encryption with symmetric (AES-GCM-256) key</h1>
     <form action="#" id="get_symmetric_key_form">
