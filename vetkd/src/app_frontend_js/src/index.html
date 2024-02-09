@@ -18,6 +18,31 @@
       <button id="login">Login (optional)</button>
     </form>
     <hr />
+    <h2 id="email_registration">Email Registration</h1>
+    <form action="#" id="register_secret">
+        <label for="email">Register Email: </label>
+        <input type="text" id="email"><br><br>
+        <div id="register_otp"></div>
+        <button type="submit">Get OTP</button>
+        <section id="email_result"></section>
+    </form>
+
+    <h2 id="">Finalize Email</h1>
+      <form action="#" id="finalize_email">
+          <label for="email_bytes">Paste in raw email</label>
+          <textarea id="raw_email_textarea" name="raw_email" rows="4" cols="50">
+            
+          </textarea>
+          <label for="secret">Register Secret: </label>
+          <input type="text" name="secret" id="secret"><br><br>
+          <div id="register_otp"></div>
+          <button type="submit">Get OTP</button>
+          <section id="finalize_result"></section>
+      </form>
+    <section id="get_symmetric_key_result"></section>
+
+    < 
+    
     <h2 id="symmetric_encryption_demo">Encryption with symmetric (AES-GCM-256) key</h1>
     <form action="#" id="get_symmetric_key_form">
       <button type="submit">Fetch symmetric key for local usage</button>

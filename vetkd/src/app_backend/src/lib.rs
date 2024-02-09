@@ -59,6 +59,7 @@ async fn ibe_encryption_key() -> String {
         derivation_path: vec![b"ibe_encryption".to_vec()],
         key_id: bls12_381_test_key_1(),
     };
+    
 
     let (response,): (VetKDPublicKeyReply,) = ic_cdk::api::call::call(
         vetkd_system_api_canister_id(),

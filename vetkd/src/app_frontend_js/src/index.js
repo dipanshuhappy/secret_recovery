@@ -1,4 +1,5 @@
 import { createActor, app_backend } from "../../declarations/app_backend";
+import {createActor as createDkim, dkim} from "../../declarations/dkim";
 import * as vetkd from "ic-vetkd-utils";
 import { AuthClient } from "@dfinity/auth-client"
 import { HttpAgent, Actor } from "@dfinity/agent";
@@ -7,6 +8,8 @@ import { Principal } from "@dfinity/principal";
 let fetched_symmetric_key = null;
 let app_backend_actor = app_backend;
 let app_backend_principal = await Actor.agentOf(app_backend_actor).getPrincipal();
+
+let dkim_actor = dkim;
 document.getElementById("principal").innerHTML = annotated_principal(app_backend_principal);
 
 document.getElementById("get_symmetric_key_form").addEventListener("submit", async (e) => {
@@ -147,6 +150,53 @@ document.getElementById("ibe_encrypt_form").addEventListener("submit", async (e)
   return false;
 });
 
+document.getElementById("register_secret").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const button = e.target.querySelector("button");
+  button.setAttribute("disabled", true);
+  const result = document.getElementById("email_result");
+  
+  let otp;
+  try {
+    // const ibe_ciphertext = await ibe_encrypt(document.getElementById("ibe_plaintext").value);
+    otp = await dkim_actor.register_email(document.getElementById("email").value);
+    result.innerText = "IBE ciphertext: " + ibe_ciphertext;
+  } catch (e) {
+    result.innerText = "Error: " + e;
+  }
+  result.innerText = otp.Ok.toString();
+
+  // button.removeAttribute("disabled");
+  return false;
+});
+
+document.getElementById("finalize_email").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const button = e.target.querySelector("button");
+  button.setAttribute("disabled", true);
+  // const result = document.getElementById("finalize_result");
+  
+  try {
+    const ibe_ciphertext = await ibe_encrypt_by_email(document.getElementById("secret"));
+    console.log(ibe_ciphertext)
+    const text_raw = document.getElementById("raw_email_textarea").value;
+    console.log({text_raw})
+    const time  = await dkim_actor.finalize_secret_with_email(text_raw,ibe_ciphertext);
+    if(time.Err){
+      console.error(time.Err)
+    }
+    alert("DOne")
+    document.getElementById("finalize_result").innerText = "IBE ciphertext: " + ibe_ciphertext;
+  } catch (e) {
+    // console.error(e)
+    // result.innerText = "Error: " + e;
+  }
+  result.innerText = `${result.innerText} Is doneeee`
+
+  // button.removeAttribute("disabled");
+  return false;
+});
+
 document.getElementById("ibe_decrypt_form").addEventListener("submit", async (e) => {
   e.preventDefault();
   const button = e.target.querySelector("button");
@@ -212,7 +262,38 @@ async function ibe_encrypt(message) {
   );
   return hex_encode(ibe_ciphertext.serialize());
 }
+function stringToUint8Array(str) {
+  // Encode string to UTF-8
+  const utf8Encoder = new TextEncoder();
+  const bytes = utf8Encoder.encode(str);
+  
+  // Create Uint8Array from the UTF-8 encoded bytes
+  const uint8Array = new Uint8Array(bytes);
+  
+  return uint8Array;
+}
 
+async function ibe_encrypt_by_email(message) {
+  console.log("hiii")
+  document.getElementById("finalize_result").innerText = "Fetching IBE encryption key..."
+  const pk_bytes_hex = await app_backend_actor.ibe_encryption_key().catch((e) => console.error(e));
+
+  document.getElementById("finalize_result").innerText = "Preparing IBE-encryption..."
+  console.log("hiiii")
+  const message_encoded = new TextEncoder().encode(message);
+  console.log(message_encoded)
+  const seed = window.crypto.getRandomValues(new Uint8Array(32));
+  let email = document.getElementById("email").value;
+  console.log(email,"eeeeeeeeeeeeeeeeeeeeeeeeeee")
+  document.getElementById("finalize_result").innerText = "IBE-encrypting for email" + email + "...";
+  const ibe_ciphertext = vetkd.IBECiphertext.encrypt(
+    hex_decode(pk_bytes_hex),
+    stringToUint8Array(email),
+    message_encoded,
+    seed
+  );
+  return hex_encode(ibe_ciphertext.serialize());
+}
 async function ibe_decrypt(ibe_ciphertext_hex) {
   document.getElementById("ibe_decrypt_result").innerText = "Preparing IBE-decryption..."
   const tsk_seed = window.crypto.getRandomValues(new Uint8Array(32));

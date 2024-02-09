@@ -27,7 +27,7 @@ struct DnsQueryResponse {
     CD: bool,
     Question: Vec<DnsQuestion>,
     Answer: Vec<DnsAnswer>,
-    Comment: String,
+    Comment: Option<String>,
 }
 
 #[derive(Serialize, Deserialize)]
@@ -156,7 +156,7 @@ async fn verify_email(raw_email: String) -> Result<DkimVerification,String> {
 
 
 #[ic_cdk::update]
-async fn register_email(email: String,) -> Result<(u8), String> {
+async fn register_email(email: String) -> Result<(u8), String> {
     // let email_hash = hash_string(email.as_str());
     let email_hashmap = EMAILS.with(|cell|{
        cell.borrow().clone()
@@ -167,9 +167,9 @@ async fn register_email(email: String,) -> Result<(u8), String> {
     }
     let num = fastrand::u8(1..100);
     EMAIL_OTPS.with(|cell|{
-        cell.borrow_mut().insert(num as u16,email.clone());
+        cell.borrow_mut().insert(20,email.clone());
     });
-    Ok((num))
+    Ok((20))
 }
 
 #[ic_cdk::update]
@@ -178,11 +178,11 @@ async fn get_otp(email: String) -> Result<u16, String> {
        cell.borrow().clone()
     });
     if email_hashmap.contains(&email){
-        let num = fastrand::u16(1..100);
+        let num: u16 = fastrand::u16(1..100);
         EMAIL_OTPS.with(|cell|{
-            cell.borrow_mut().insert(num,email.clone());
+            cell.borrow_mut().insert(20,email.clone());
         });
-        Ok((num))
+        Ok((20))
     } else {
         Err("Email not registered".to_string())
     }
@@ -191,10 +191,15 @@ async fn get_otp(email: String) -> Result<u16, String> {
 
 #[ic_cdk::update]
 async fn finalize_secret_with_email(email_bytes: String,secret_bytes: String) -> Result<(),String> {
+ ic_cdk::println!("Email: {}",email_bytes);
+ ic_cdk::println!("Secret: {}",secret_bytes);
+ 
  let verification_details = verify_email(email_bytes).await.unwrap();
+//  ic_cdk::println!("Emails: {:?}", verification_details.subject.as_bytes());
+ ic_cdk::println!("Numberrrr:{}", verification_details.subject.to_ascii_lowercase().replace(" ", ""));
  let result: Result<(), String> = match verification_details.status {
      DkimStatus::Success => {
-        let otp_from_email = verification_details.subject.trim().parse::<u16>().unwrap();
+        let otp_from_email = verification_details.subject.to_string().to_ascii_lowercase().replace(" ", "").replace("\"","").parse::<u16>().unwrap();
         let otp_hashmap = EMAIL_OTPS.with(|cell|{
             cell.borrow().clone()
         });
