@@ -153,14 +153,6 @@ async fn verify_email(raw_email: String) -> Result<DkimVerification,String> {
     Ok(output)
     
 }
-// fn hash_string (email: &str) -> String{
-//     use sha3::{Digest,Sha3_256};
-//     let mut hasher = Sha3_256::new();
-//     hasher.update(email);
-//     let result = hasher.finalize();
-//     hex::encode(result)
-// }
-
 
 #[ic_cdk::update]
 async fn register_email(email: String) -> Result<(u8), String> {
