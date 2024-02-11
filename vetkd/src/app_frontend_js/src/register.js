@@ -1,6 +1,6 @@
 import $ from "jquery";
-import { createActor, app_backend } from "../../declarations/app_backend";
-import {createActor as createDkim, dkim} from "../../declarations/dkim";
+import { createActor, app_backend } from "./app_backend";
+import {createActor as createDkim, dkim} from "./dkim";
 import * as vetkd from "ic-vetkd-utils";
 import { AuthClient } from "@dfinity/auth-client"
 import { HttpAgent, Actor } from "@dfinity/agent";
