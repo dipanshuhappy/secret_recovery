@@ -33113,6 +33113,192 @@ nacl.setPRNG = function(fn) {
 
 /***/ }),
 
+/***/ "./src/app_frontend_js/src/app_backend/app_backend.did.js":
+/*!****************************************************************!*\
+  !*** ./src/app_frontend_js/src/app_backend/app_backend.did.js ***!
+  \****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   idlFactory: () => (/* binding */ idlFactory),
+/* harmony export */   init: () => (/* binding */ init)
+/* harmony export */ });
+const idlFactory = ({ IDL }) => {
+  return IDL.Service({
+    'encrypted_ibe_decryption_key_email' : IDL.Func(
+        [IDL.Vec(IDL.Nat8), IDL.Text],
+        [IDL.Text],
+        [],
+      ),
+    'encrypted_ibe_decryption_key_for_caller' : IDL.Func(
+        [IDL.Vec(IDL.Nat8)],
+        [IDL.Text],
+        [],
+      ),
+    'encrypted_symmetric_key_for_caller' : IDL.Func(
+        [IDL.Vec(IDL.Nat8)],
+        [IDL.Text],
+        [],
+      ),
+    'ibe_encryption_key' : IDL.Func([], [IDL.Text], []),
+    'symmetric_key_verification_key' : IDL.Func([], [IDL.Text], []),
+  });
+};
+const init = ({ IDL }) => { return []; };
+
+
+/***/ }),
+
+/***/ "./src/app_frontend_js/src/app_backend/index.js":
+/*!******************************************************!*\
+  !*** ./src/app_frontend_js/src/app_backend/index.js ***!
+  \******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   app_backend: () => (/* binding */ app_backend),
+/* harmony export */   canisterId: () => (/* binding */ canisterId),
+/* harmony export */   createActor: () => (/* binding */ createActor),
+/* harmony export */   idlFactory: () => (/* reexport safe */ _app_backend_did_js__WEBPACK_IMPORTED_MODULE_1__.idlFactory)
+/* harmony export */ });
+/* harmony import */ var _dfinity_agent__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @dfinity/agent */ "./node_modules/@dfinity/agent/lib/esm/index.js");
+/* harmony import */ var _app_backend_did_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./app_backend.did.js */ "./src/app_frontend_js/src/app_backend/app_backend.did.js");
+
+
+// Imports and re-exports candid interface
+
+
+
+/* CANISTER_ID is replaced by webpack based on node environment
+ * Note: canister environment variable will be standardized as
+ * process.env.CANISTER_ID_<CANISTER_NAME_UPPERCASE>
+ * beginning in dfx 0.15.0
+ */
+const canisterId = "pgbfm-zqaaa-aaaag-acn7q-cai"
+
+const createActor = (canisterId, options = {}) => {
+  const agent = options.agent || new _dfinity_agent__WEBPACK_IMPORTED_MODULE_0__.HttpAgent({ ...options.agentOptions,host:"https://ic0.app" });
+
+  if (options.agent && options.agentOptions) {
+    console.warn(
+      "Detected both agent and agentOptions passed to createActor. Ignoring agentOptions and proceeding with the provided agent."
+    );
+  }
+
+  // Fetch root key for certificate validation during development
+  if (false) {}
+
+  // Creates an actor with using the candid interface and the HttpAgent
+  return _dfinity_agent__WEBPACK_IMPORTED_MODULE_0__.Actor.createActor(_app_backend_did_js__WEBPACK_IMPORTED_MODULE_1__.idlFactory, {
+    agent,
+    canisterId,
+    ...options.actorOptions,
+  });
+};
+
+const app_backend = createActor(canisterId);
+
+
+/***/ }),
+
+/***/ "./src/app_frontend_js/src/dkim/dkim.did.js":
+/*!**************************************************!*\
+  !*** ./src/app_frontend_js/src/dkim/dkim.did.js ***!
+  \**************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   idlFactory: () => (/* binding */ idlFactory),
+/* harmony export */   init: () => (/* binding */ init)
+/* harmony export */ });
+const idlFactory = ({ IDL }) => {
+  const Result = IDL.Variant({ 'Ok' : IDL.Null, 'Err' : IDL.Text });
+  const Result_1 = IDL.Variant({ 'Ok' : IDL.Nat16, 'Err' : IDL.Text });
+  const Result_2 = IDL.Variant({ 'Ok' : IDL.Text, 'Err' : IDL.Text });
+  const HttpHeader = IDL.Record({ 'value' : IDL.Text, 'name' : IDL.Text });
+  const HttpResponse = IDL.Record({
+    'status' : IDL.Nat,
+    'body' : IDL.Vec(IDL.Nat8),
+    'headers' : IDL.Vec(HttpHeader),
+  });
+  const TransformArgs = IDL.Record({
+    'context' : IDL.Vec(IDL.Nat8),
+    'response' : HttpResponse,
+  });
+  return IDL.Service({
+    'finalize_secret_with_email' : IDL.Func([IDL.Text, IDL.Text], [Result], []),
+    'get_dkim' : IDL.Func([IDL.Text], [IDL.Text], []),
+    'get_otp' : IDL.Func([IDL.Text], [Result_1], []),
+    'register_email' : IDL.Func([IDL.Text], [Result_1], []),
+    'retrieve_secret' : IDL.Func([IDL.Text], [Result_2], []),
+    'transform' : IDL.Func([TransformArgs], [HttpResponse], ['query']),
+  });
+};
+const init = ({ IDL }) => { return []; };
+
+
+/***/ }),
+
+/***/ "./src/app_frontend_js/src/dkim/index.js":
+/*!***********************************************!*\
+  !*** ./src/app_frontend_js/src/dkim/index.js ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   canisterId: () => (/* binding */ canisterId),
+/* harmony export */   createActor: () => (/* binding */ createActor),
+/* harmony export */   dkim: () => (/* binding */ dkim),
+/* harmony export */   idlFactory: () => (/* reexport safe */ _dkim_did_js__WEBPACK_IMPORTED_MODULE_1__.idlFactory)
+/* harmony export */ });
+/* harmony import */ var _dfinity_agent__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @dfinity/agent */ "./node_modules/@dfinity/agent/lib/esm/index.js");
+/* harmony import */ var _dkim_did_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./dkim.did.js */ "./src/app_frontend_js/src/dkim/dkim.did.js");
+
+
+// Imports and re-exports candid interface
+
+
+
+/* CANISTER_ID is replaced by webpack based on node environment
+ * Note: canister environment variable will be standardized as
+ * process.env.CANISTER_ID_<CANISTER_NAME_UPPERCASE>
+ * beginning in dfx 0.15.0
+ */
+const canisterId = "y4ngf-cyaaa-aaaag-acoaa-cai";
+
+const createActor = (canisterId, options = {}) => {
+  const agent = options.agent || new _dfinity_agent__WEBPACK_IMPORTED_MODULE_0__.HttpAgent({ ...options.agentOptions ,host:"https://ic0.app"});
+
+  if (options.agent && options.agentOptions) {
+    console.warn(
+      "Detected both agent and agentOptions passed to createActor. Ignoring agentOptions and proceeding with the provided agent."
+    );
+  }
+
+  // Fetch root key for certificate validation during development
+  if (false) {}
+
+  // Creates an actor with using the candid interface and the HttpAgent
+  return _dfinity_agent__WEBPACK_IMPORTED_MODULE_0__.Actor.createActor(_dkim_did_js__WEBPACK_IMPORTED_MODULE_1__.idlFactory, {
+    agent,
+    canisterId,
+    ...options.actorOptions,
+  });
+};
+
+const dkim = createActor(canisterId);
+
+
+/***/ }),
+
 /***/ "./src/app_frontend_js/src/register.js":
 /*!*********************************************!*\
   !*** ./src/app_frontend_js/src/register.js ***!
@@ -33124,8 +33310,8 @@ __webpack_require__.a(module, async (__webpack_handle_async_dependencies__, __we
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _declarations_app_backend__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../declarations/app_backend */ "./src/declarations/app_backend/index.js");
-/* harmony import */ var _declarations_dkim__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../declarations/dkim */ "./src/declarations/dkim/index.js");
+/* harmony import */ var _app_backend__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./app_backend */ "./src/app_frontend_js/src/app_backend/index.js");
+/* harmony import */ var _dkim__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./dkim */ "./src/app_frontend_js/src/dkim/index.js");
 /* harmony import */ var ic_vetkd_utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ic-vetkd-utils */ "./node_modules/ic-vetkd-utils/ic_vetkd_utils.js");
 /* harmony import */ var _dfinity_auth_client__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @dfinity/auth-client */ "./node_modules/@dfinity/auth-client/lib/esm/index.js");
 /* harmony import */ var _dfinity_agent__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @dfinity/agent */ "./node_modules/@dfinity/agent/lib/esm/index.js");
@@ -33141,8 +33327,8 @@ ic_vetkd_utils__WEBPACK_IMPORTED_MODULE_3__ = (__webpack_async_dependencies__.th
 
 
 
-let app_backend_actor = _declarations_app_backend__WEBPACK_IMPORTED_MODULE_1__.app_backend;
-let dkim_actor = _declarations_dkim__WEBPACK_IMPORTED_MODULE_2__.dkim;
+let app_backend_actor = _app_backend__WEBPACK_IMPORTED_MODULE_1__.app_backend;
+let dkim_actor = _dkim__WEBPACK_IMPORTED_MODULE_2__.dkim;
 
 const hex_decode = (hexString) =>
   Uint8Array.from(hexString.match(/.{1,2}/g).map((byte) => parseInt(byte, 16)));
@@ -33237,197 +33423,6 @@ async function ibe_encrypt_by_email(message) {
 
 __webpack_async_result__();
 } catch(e) { __webpack_async_result__(e); } });
-
-/***/ }),
-
-/***/ "./src/declarations/app_backend/app_backend.did.js":
-/*!*********************************************************!*\
-  !*** ./src/declarations/app_backend/app_backend.did.js ***!
-  \*********************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   idlFactory: () => (/* binding */ idlFactory),
-/* harmony export */   init: () => (/* binding */ init)
-/* harmony export */ });
-const idlFactory = ({ IDL }) => {
-  return IDL.Service({
-    'encrypted_ibe_decryption_key_email' : IDL.Func(
-        [IDL.Vec(IDL.Nat8), IDL.Text],
-        [IDL.Text],
-        [],
-      ),
-    'encrypted_ibe_decryption_key_for_caller' : IDL.Func(
-        [IDL.Vec(IDL.Nat8)],
-        [IDL.Text],
-        [],
-      ),
-    'encrypted_symmetric_key_for_caller' : IDL.Func(
-        [IDL.Vec(IDL.Nat8)],
-        [IDL.Text],
-        [],
-      ),
-    'ibe_encryption_key' : IDL.Func([], [IDL.Text], []),
-    'symmetric_key_verification_key' : IDL.Func([], [IDL.Text], []),
-  });
-};
-const init = ({ IDL }) => { return []; };
-
-
-/***/ }),
-
-/***/ "./src/declarations/app_backend/index.js":
-/*!***********************************************!*\
-  !*** ./src/declarations/app_backend/index.js ***!
-  \***********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   app_backend: () => (/* binding */ app_backend),
-/* harmony export */   canisterId: () => (/* binding */ canisterId),
-/* harmony export */   createActor: () => (/* binding */ createActor),
-/* harmony export */   idlFactory: () => (/* reexport safe */ _app_backend_did_js__WEBPACK_IMPORTED_MODULE_1__.idlFactory)
-/* harmony export */ });
-/* harmony import */ var _dfinity_agent__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @dfinity/agent */ "./node_modules/@dfinity/agent/lib/esm/index.js");
-/* harmony import */ var _app_backend_did_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./app_backend.did.js */ "./src/declarations/app_backend/app_backend.did.js");
-
-
-// Imports and re-exports candid interface
-
-
-
-/* CANISTER_ID is replaced by webpack based on node environment
- * Note: canister environment variable will be standardized as
- * process.env.CANISTER_ID_<CANISTER_NAME_UPPERCASE>
- * beginning in dfx 0.15.0
- */
-const canisterId =
-  "pgbfm-zqaaa-aaaag-acn7q-cai" ||
-  0;
-
-const createActor = (canisterId, options = {}) => {
-  const agent = options.agent || new _dfinity_agent__WEBPACK_IMPORTED_MODULE_0__.HttpAgent({ ...options.agentOptions });
-
-  if (options.agent && options.agentOptions) {
-    console.warn(
-      "Detected both agent and agentOptions passed to createActor. Ignoring agentOptions and proceeding with the provided agent."
-    );
-  }
-
-  // Fetch root key for certificate validation during development
-  if (false) {}
-
-  // Creates an actor with using the candid interface and the HttpAgent
-  return _dfinity_agent__WEBPACK_IMPORTED_MODULE_0__.Actor.createActor(_app_backend_did_js__WEBPACK_IMPORTED_MODULE_1__.idlFactory, {
-    agent,
-    canisterId,
-    ...options.actorOptions,
-  });
-};
-
-const app_backend = createActor(canisterId);
-
-
-/***/ }),
-
-/***/ "./src/declarations/dkim/dkim.did.js":
-/*!*******************************************!*\
-  !*** ./src/declarations/dkim/dkim.did.js ***!
-  \*******************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   idlFactory: () => (/* binding */ idlFactory),
-/* harmony export */   init: () => (/* binding */ init)
-/* harmony export */ });
-const idlFactory = ({ IDL }) => {
-  const Result = IDL.Variant({ 'Ok' : IDL.Null, 'Err' : IDL.Text });
-  const Result_1 = IDL.Variant({ 'Ok' : IDL.Nat16, 'Err' : IDL.Text });
-  const Result_2 = IDL.Variant({ 'Ok' : IDL.Text, 'Err' : IDL.Text });
-  const HttpHeader = IDL.Record({ 'value' : IDL.Text, 'name' : IDL.Text });
-  const HttpResponse = IDL.Record({
-    'status' : IDL.Nat,
-    'body' : IDL.Vec(IDL.Nat8),
-    'headers' : IDL.Vec(HttpHeader),
-  });
-  const TransformArgs = IDL.Record({
-    'context' : IDL.Vec(IDL.Nat8),
-    'response' : HttpResponse,
-  });
-  return IDL.Service({
-    'finalize_secret_with_email' : IDL.Func([IDL.Text, IDL.Text], [Result], []),
-    'get_dkim' : IDL.Func([IDL.Text], [IDL.Text], []),
-    'get_otp' : IDL.Func([IDL.Text], [Result_1], []),
-    'register_email' : IDL.Func([IDL.Text], [Result_1], []),
-    'retrieve_secret' : IDL.Func([IDL.Text], [Result_2], []),
-    'transform' : IDL.Func([TransformArgs], [HttpResponse], ['query']),
-  });
-};
-const init = ({ IDL }) => { return []; };
-
-
-/***/ }),
-
-/***/ "./src/declarations/dkim/index.js":
-/*!****************************************!*\
-  !*** ./src/declarations/dkim/index.js ***!
-  \****************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   canisterId: () => (/* binding */ canisterId),
-/* harmony export */   createActor: () => (/* binding */ createActor),
-/* harmony export */   dkim: () => (/* binding */ dkim),
-/* harmony export */   idlFactory: () => (/* reexport safe */ _dkim_did_js__WEBPACK_IMPORTED_MODULE_1__.idlFactory)
-/* harmony export */ });
-/* harmony import */ var _dfinity_agent__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @dfinity/agent */ "./node_modules/@dfinity/agent/lib/esm/index.js");
-/* harmony import */ var _dkim_did_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./dkim.did.js */ "./src/declarations/dkim/dkim.did.js");
-/* provided dependency */ var process = __webpack_require__(/*! ./node_modules/process/browser.js */ "./node_modules/process/browser.js");
-
-
-// Imports and re-exports candid interface
-
-
-
-/* CANISTER_ID is replaced by webpack based on node environment
- * Note: canister environment variable will be standardized as
- * process.env.CANISTER_ID_<CANISTER_NAME_UPPERCASE>
- * beginning in dfx 0.15.0
- */
-const canisterId =
-  process.env.CANISTER_ID_DKIM ||
-  process.env.DKIM_CANISTER_ID;
-
-const createActor = (canisterId, options = {}) => {
-  const agent = options.agent || new _dfinity_agent__WEBPACK_IMPORTED_MODULE_0__.HttpAgent({ ...options.agentOptions });
-
-  if (options.agent && options.agentOptions) {
-    console.warn(
-      "Detected both agent and agentOptions passed to createActor. Ignoring agentOptions and proceeding with the provided agent."
-    );
-  }
-
-  // Fetch root key for certificate validation during development
-  if (false) {}
-
-  // Creates an actor with using the candid interface and the HttpAgent
-  return _dfinity_agent__WEBPACK_IMPORTED_MODULE_0__.Actor.createActor(_dkim_did_js__WEBPACK_IMPORTED_MODULE_1__.idlFactory, {
-    agent,
-    canisterId,
-    ...options.actorOptions,
-  });
-};
-
-const dkim = createActor(canisterId);
-
 
 /***/ }),
 
