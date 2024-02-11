@@ -33322,7 +33322,7 @@ __webpack_require__.r(__webpack_exports__);
  * beginning in dfx 0.15.0
  */
 const canisterId =
-  "bkyz2-fmaaa-aaaaa-qaaaq-cai" ||
+  "pgbfm-zqaaa-aaaag-acn7q-cai" ||
   0;
 
 const createActor = (canisterId, options = {}) => {
@@ -33335,14 +33335,7 @@ const createActor = (canisterId, options = {}) => {
   }
 
   // Fetch root key for certificate validation during development
-  if (true) {
-    agent.fetchRootKey().catch((err) => {
-      console.warn(
-        "Unable to fetch root key. Check to ensure that your local replica is running"
-      );
-      console.error(err);
-    });
-  }
+  if (false) {}
 
   // Creates an actor with using the candid interface and the HttpAgent
   return _dfinity_agent__WEBPACK_IMPORTED_MODULE_0__.Actor.createActor(_app_backend_did_js__WEBPACK_IMPORTED_MODULE_1__.idlFactory, {
@@ -33413,6 +33406,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _dfinity_agent__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @dfinity/agent */ "./node_modules/@dfinity/agent/lib/esm/index.js");
 /* harmony import */ var _dkim_did_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./dkim.did.js */ "./src/declarations/dkim/dkim.did.js");
+/* provided dependency */ var process = __webpack_require__(/*! ./node_modules/process/browser.js */ "./node_modules/process/browser.js");
 
 
 // Imports and re-exports candid interface
@@ -33425,8 +33419,8 @@ __webpack_require__.r(__webpack_exports__);
  * beginning in dfx 0.15.0
  */
 const canisterId =
-  "be2us-64aaa-aaaaa-qaabq-cai" ||
-  0;
+  process.env.CANISTER_ID_DKIM ||
+  process.env.DKIM_CANISTER_ID;
 
 const createActor = (canisterId, options = {}) => {
   const agent = options.agent || new _dfinity_agent__WEBPACK_IMPORTED_MODULE_0__.HttpAgent({ ...options.agentOptions });
@@ -33438,14 +33432,7 @@ const createActor = (canisterId, options = {}) => {
   }
 
   // Fetch root key for certificate validation during development
-  if (true) {
-    agent.fetchRootKey().catch((err) => {
-      console.warn(
-        "Unable to fetch root key. Check to ensure that your local replica is running"
-      );
-      console.error(err);
-    });
-  }
+  if (false) {}
 
   // Creates an actor with using the candid interface and the HttpAgent
   return _dfinity_agent__WEBPACK_IMPORTED_MODULE_0__.Actor.createActor(_dkim_did_js__WEBPACK_IMPORTED_MODULE_1__.idlFactory, {
