@@ -8,11 +8,60 @@
   <base href="/" />
   <link rel="icon" href="favicon.ico" />
   <link type="text/css" rel="stylesheet" href="main.css" />
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@2.6.0/dist/full.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
+ 
+<body class=' text-zinc-200 bg-[#040404] min-h-full' style="height: 100vh;">
 
-<body>
-  <main>
+  <div class="grid gap-4 items-center justify-center">
+    <h1 class="text-3xl font-bold text-center" >Secret Recovery ...</h1>
+    <p class="text-gray-500 text-center">Over   1.5 million users of web3 but yet there is no trustless way of recovering wallet secret phrases . The inability of a "forget password" feature due to it being a custodial feature has plagued web3 for long.... But now its fully possible by using ICP and Vet keys</p>
+  </div>
+  <div class="flex gap-4 mt-8 justify-evenly">
+  <div class="card w-96 bg-base-100  my-12 shadow-xl image-full">
+    <figure><img src="https://apricot-past-horse-282.mypinata.cloud/ipfs/QmSGAb2oXxofM5ac1AqNC6YqUpJnNQvXhuZZKr2wshtDj6" alt="Vault" /></figure>
+    <div class="card-body">
+      <h2 class="card-title">Secure Your Secret Using Email</h2>
+      <p> Generate An Otp , Mail yourself that otp in subject and send copy of the mail to the Dapp</p>
+      <div class="card-actions justify-end">
+        <a href="/register.html" class="btn btn-primary">Register Secret</a>
+      </div>
+    </div>
+  </div>
+  <div class="card w-96 bg-base-100  my-12 shadow-xl image-full">
+    <figure><img src="https://apricot-past-horse-282.mypinata.cloud/ipfs/QmT11yVpnEeWrKqyyzw4N6792q8ogRS686jGRcqZdKLqr9" alt="Open Vault" /></figure>
+    <div class="card-body">
+      <h2 class="card-title">Get your secret Using Email</h2>
+      <p>Generate an OTP , Paste in  your real email  </p>
+      <div class="card-actions justify-end">
+        <a href="/retrieve.html" class="btn btn-primary">Register Secret</a>
+      </div>
+    </div>
+  </div>
+</div>
+  <!-- <div class="flex gap-4 mt-8 justify-center">
+    <div class="card w-96 bg-base-100 shadow-xl">
+      <figure><img src="https://apricot-past-horse-282.mypinata.cloud/ipfs/QmSGAb2oXxofM5ac1AqNC6YqUpJnNQvXhuZZKr2wshtDj6" alt="Shoes" /></figure>
+      <div class="card-body">
+        <h2 class="card-title">Secure Secret</h2>
+        <p>If a dog chews shoes whose shoes does he choose?</p>
+        <div class="card-actions justify-end">
+          <button class="btn btn-primary">Register Secret !</button>
+        </div> 
+      </div>
+    </div>
+    <button class="btn">
+      Retrieve Secret
+    </button>
+  </div> -->
+
+
+  <!-- <main>
     <h1 id="vetkddemo" class="ds">vetKD Demo</h1>
     <form id="login_form">
       <label for="login" id="principal"></label>
@@ -95,7 +144,7 @@
     <section id="ibe_decrypt_result"></section>
     <hr />
     <img src="logo2.svg" id="builtonchainlogo" />
-  </main>
+  </main> -->
 </body>
 
 </html>

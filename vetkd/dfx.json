@@ -25,7 +25,8 @@
         "dkim"
       ],
       "frontend": {
-        "entrypoint": "src/app_frontend_js/src/index.html"
+        "entrypoint": "src/app_frontend_js/src/index.html",
+        "register":"src/app_frontend_js/src/register.html"
       },
       "source": [
         "src/app_frontend_js/assets",

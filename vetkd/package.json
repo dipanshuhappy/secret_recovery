@@ -21,7 +21,9 @@
     "@dfinity/auth-client": "^0.18.1",
     "@dfinity/candid": "^0.18.1",
     "@dfinity/principal": "^0.18.1",
-    "ic-vetkd-utils": "file:ic-vetkd-utils-0.1.0.tgz"
+    "@mariojgt/wind-notify": "^0.1.2",
+    "ic-vetkd-utils": "file:ic-vetkd-utils-0.1.0.tgz",
+    "jquery": "^3.7.1"
   },
   "devDependencies": {
     "assert": "2.0.0",

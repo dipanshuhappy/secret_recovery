@@ -10,6 +10,8 @@ const isDevelopment = process.env.NODE_ENV !== "production";
 const frontendDirectory = "app_frontend_js";
 
 const frontend_entry = path.join("src", frontendDirectory, "src", "index.html");
+const register_entry = path.join("src", frontendDirectory, "src", "register.html");
+const retrieve_entry = path.join("src", frontendDirectory, "src", "retrieve.html");
 
 module.exports = {
   target: "web",
@@ -18,6 +20,8 @@ module.exports = {
     // The frontend.entrypoint points to the HTML file for this build, so we need
     // to replace the extension to `.js`.
     index: path.join(__dirname, frontend_entry).replace(/\.html$/, ".js"),
+    register: path.join(__dirname, register_entry).replace(/\.html$/, ".js"),
+    retrieve: path.join(__dirname, retrieve_entry).replace(/\.html$/, ".js")
   },
   devtool: isDevelopment ? "source-map" : false,
   optimization: {
@@ -35,7 +39,7 @@ module.exports = {
     },
   },
   output: {
-    filename: "index.js",
+    filename: "[name].js",
     path: path.join(__dirname, "dist", frontendDirectory),
   },
 
@@ -54,6 +58,20 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: path.join(__dirname, frontend_entry),
       cache: false,
+      filename: "index.html" ,
+      chunks: ['index']// Specify the output file name
+    }),
+    new HtmlWebpackPlugin({
+      template: path.join(__dirname, register_entry),
+      cache: false,
+      filename: "register.html" ,
+      chunks: ['register']// Specify the output file name for register.html
+    }),
+    new HtmlWebpackPlugin({
+      template: path.join(__dirname, retrieve_entry),
+      cache: false,
+      filename: "retrieve.html" ,
+      chunks: ['retrieve']// Specify the output file name for register.html
     }),
     new webpack.EnvironmentPlugin([
       ...Object.keys(process.env).filter((key) => {
