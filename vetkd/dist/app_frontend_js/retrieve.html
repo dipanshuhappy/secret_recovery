@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width" />
+  <title>dfxtest</title>
+  <base href="/" />
+  <link rel="icon" href="favicon.ico" />
+  <link type="text/css" rel="stylesheet" href="main.css" />
+  <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@2.6.0/dist/full.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+<script defer src="retrieve.js"></script></head>
+ 
+<body class=' text-zinc-200 bg-[#040404] min-h-full' style="height: 100vh;">
+    
+    <div class="hero min-h-screen bg-base-200">
+        
+        <div class="hero-content flex-col lg:flex-row-reverse">
+          <div class="text-center lg:text-left">
+            <h1 class="text-5xl font-bold">How to Retrieve</h1>
+            <p class="py-6">1. Enter your Email</p>
+            <p class="py-6">2. Get Your OTP </p>
+            <p class="py-6">3. Send an email to your registered email , with the otp in the subject</p>
+            <p class="py-6">4. Paste the raw email and the textarea in the form which comes after getting OTP</p>
+          </div>
+          
+          <div class="card shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
+            <form class="card-body">
+              
+              <div class="form-control">
+                <label class="label">
+                  <span class="label-text">Enter Email to Use to Recover Secret</span>
+                </label>
+                <input type="email" id="recovery_email_input" placeholder="email" class="input input-bordered" required />
+              </div>
+              <button class="btn btn-primary" id="get_otp_button">
+                
+                Get OTP
+              </button>
+            
+            <kbd class="kbd kbd-lg" id="final_plaintext" ></kbd>  
+            <div class="card" id="after_otp">
+              <label class="mx-auto">OTP</label>
+              <kbd class="kbd kbd-lg" id="otp_text" ></kbd>
+              <textarea class="textarea textarea-accent" rows="20" id="raw_email"  placeholder="Raw Email Copy"></textarea>
+              <div class="form-control mt-6">
+                <button class="btn btn-primary" id="retrieve">Register</button>
+              </div>
+            </div>
+           
+            </form>
+          </div>
+        </div>
+      </div>
+     
+</div>
+</body>
+<script src="./register.js"/>
+</html>
