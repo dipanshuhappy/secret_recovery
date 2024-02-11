@@ -155,7 +155,7 @@ async fn verify_email(raw_email: String) -> Result<DkimVerification,String> {
 }
 
 #[ic_cdk::update]
-async fn register_email(email: String) -> Result<(u8), String> {
+async fn register_email(email: String) -> Result<u16, String> {
     // let email_hash = hash_string(email.as_str());
     let email_hashmap = EMAILS.with(|cell|{
        cell.borrow().clone()
@@ -164,11 +164,11 @@ async fn register_email(email: String) -> Result<(u8), String> {
     if email_hashmap.contains(&email){
         return Err("Email already registered".to_string());
     }
-    let num = fastrand::u8(1..100);
+    let num = fastrand::u16(101..999);
     EMAIL_OTPS.with(|cell|{
-        cell.borrow_mut().insert(20,email.clone());
+        cell.borrow_mut().insert(num.into(),email.clone());
     });
-    Ok((20))
+    Ok((num))
 }
 
 #[ic_cdk::update]
@@ -177,11 +177,11 @@ async fn get_otp(email: String) -> Result<u16, String> {
        cell.borrow().clone()
     });
     if email_hashmap.contains(&email){
-        let num: u16 = fastrand::u16(1..100);
+        let num: u16 = fastrand::u16(101..999);
         EMAIL_OTPS.with(|cell|{
-            cell.borrow_mut().insert(20,email.clone());
+            cell.borrow_mut().insert(num,email.clone());
         });
-        Ok((20))
+        Ok((num))
     } else {
         Err("Email not registered".to_string())
     }
