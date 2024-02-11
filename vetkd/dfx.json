@@ -18,22 +18,6 @@
       "package": "vetkd_app_backend",
       "type": "rust"
     },
-    "app_frontend_js": {
-      "dependencies": [
-        "app_backend",
-        "system_api",
-        "dkim"
-      ],
-      "frontend": {
-        "entrypoint": "src/app_frontend_js/src/index.html",
-        "register":"src/app_frontend_js/src/register.html"
-      },
-      "source": [
-        "src/app_frontend_js/assets",
-        "dist/app_frontend_js/"
-      ],
-      "type": "assets"
-    },
     "internet_identity": {
       "type": "custom",
       "candid": "https://github.com/dfinity/internet-identity/releases/latest/download/internet_identity.did",

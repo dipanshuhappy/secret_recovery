@@ -1,0 +1,11 @@
+{
+  "app_backend": {
+    "ic": "pgbfm-zqaaa-aaaag-acn7q-cai"
+  },
+  "dkim": {
+    "ic": "y4ngf-cyaaa-aaaag-acoaa-cai"
+  },
+  "system_api": {
+    "ic": "y3mar-paaaa-aaaag-acoaq-cai"
+  }
+}

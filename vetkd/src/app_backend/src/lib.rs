@@ -8,7 +8,7 @@ use types::{
 
 mod types;
 
-const VETKD_SYSTEM_API_CANISTER_ID: &str = "bw4dl-smaaa-aaaaa-qaacq-cai";
+const VETKD_SYSTEM_API_CANISTER_ID: &str = "y3mar-paaaa-aaaag-acoaq-cai";
 
 #[update]
 async fn symmetric_key_verification_key() -> String {
