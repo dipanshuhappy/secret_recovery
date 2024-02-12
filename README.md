@@ -29,6 +29,7 @@ Hence we can now have wallet recovery mechanism
 4. The smart contract verifies the email using DKIM and return the phrase
 
 ## DEMO !
+Click to view video
 [![Demo Quick Video ](https://cdn.loom.com/sessions/thumbnails/de6b021b71e04e5ea4bc082b7ae832a5-with-play.gif)](https://www.loom.com/share/de6b021b71e04e5ea4bc082b7ae832a5)
 
 ## Link
